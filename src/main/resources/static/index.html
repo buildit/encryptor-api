@@ -1,0 +1,83 @@
+<html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <script src="jquery-3.2.1.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        $("#sbut").click(function(e){
+            e.preventDefault();
+            var form = this.form
+            var multipart = (form.enctype == 'multipart/form-data')
+            var contentType = multipart ? false: form.enctype;
+            var data = multipart ? new FormData(form) : $(form).serialize();
+            $.ajax({
+                url: 'api',
+                data: data,
+                cache: false,
+                contentType: contentType,
+                processData: false,
+                type: 'POST',
+                success: function(data){
+                    $('#results').removeClass("alert alert-danger")
+                    $('#results').text(data);
+                },
+                error: function(data){
+                    $('#results').addClass("alert alert-danger")
+                    $('#results').text(data.responseText);
+                }
+            });
+        });
+        $(".copy").click(function(e){
+            e.preventDefault();
+            var aux = document.createElement("input");
+            aux.setAttribute("value", document.getElementById('results').innerHTML);
+            document.body.appendChild(aux);
+            aux.select();
+            document.execCommand("copy");
+            document.body.removeChild(aux);
+        });
+        $("#showpbut").click(function(e){
+            e.preventDefault();
+            if ( $('#showpbut').text() == 'Show password') {
+              $('#password').attr('type','text')
+              $('#passwordSecret').attr('type','text')
+              $('#showpbut').text('Hide password')
+            } else {
+              $('#password').attr('type','password')
+              $('#passwordSecret').attr('type','password')
+              $('#showpbut').text('Show password')
+            }
+        });
+    });
+    </script>
+</head>
+<body>
+    <form method="post" action="api" enctype="application/x-www-form-urlencoded" name="passwordForm">
+        <fieldset>
+            <legend>Encrypt a Password</legend>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password">
+            <label for="passwordSecret">Secret</label>
+            <input type="password" name="secret" id="passwordSecret">
+            <input type="submit" value="Submit" class="btn btn-default" id="sbut">
+            <button class="copy btn btn-default">Copy</button>
+            <button class="showp btn btn-default" id="showpbut">Show password</button>
+        </fieldset>
+    </form>
+
+    <form method="post" action="api" enctype="multipart/form-data" name="fileForm">
+        <fieldset>
+            <legend>Encrypt a File</legend>
+            <label class="btn btn-default" for="file">
+                <input id="file" type="file" style="display:none;" name="file">
+                Choose File...
+            </label>
+            <label for="fileSecret">Secret</label>
+            <input type="password" name="secret" id="fileSecret">
+            <input type="submit" value="Submit" class="btn btn-default" id="sbut">
+            <button class="copy btn btn-default">Copy</button>
+        </fieldset>
+    </form>
+    <pre id="results"></pre>
+</body>
+</html>
