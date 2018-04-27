@@ -4,14 +4,14 @@
     <script src="jquery-3.2.1.min.js"></script>
     <script>
     $(document).ready(function(){
-        $("#sbut").click(function(e){
+        $(":submit").click(function(e){
             e.preventDefault();
             var form = this.form
             var multipart = (form.enctype == 'multipart/form-data')
             var contentType = multipart ? false: form.enctype;
             var data = multipart ? new FormData(form) : $(form).serialize();
             $.ajax({
-                url: 'api',
+                url: form.action,
                 data: data,
                 cache: false,
                 contentType: contentType,
@@ -52,20 +52,20 @@
     </script>
 </head>
 <body>
-    <form method="post" action="api" enctype="application/x-www-form-urlencoded" name="passwordForm">
+    <form method="post" action="api/encrypted" enctype="application/x-www-form-urlencoded" name="passwordForm">
         <fieldset>
             <legend>Encrypt a Password</legend>
             <label for="password">Password</label>
             <input type="password" name="password" id="password">
             <label for="passwordSecret">Secret</label>
             <input type="password" name="secret" id="passwordSecret">
-            <input type="submit" value="Submit" class="btn btn-default" id="sbut">
+            <input type="submit" value="Submit" class="btn btn-default" id="passwordSubmit">
             <button class="copy btn btn-default">Copy</button>
             <button class="showp btn btn-default" id="showpbut">Show password</button>
         </fieldset>
     </form>
 
-    <form method="post" action="api" enctype="multipart/form-data" name="fileForm">
+    <form method="post" action="api/encrypted" enctype="multipart/form-data" name="fileForm">
         <fieldset>
             <legend>Encrypt a File</legend>
             <label class="btn btn-default" for="file">
@@ -74,7 +74,23 @@
             </label>
             <label for="fileSecret">Secret</label>
             <input type="password" name="secret" id="fileSecret">
-            <input type="submit" value="Submit" class="btn btn-default" id="sbut">
+            <input type="submit" value="Submit" class="btn btn-default" id="fileSubmit">
+            <button class="copy btn btn-default">Copy</button>
+        </fieldset>
+    </form>
+    <form method="post" action="api/key" enctype="application/x-www-form-urlencoded" name="keyForm">
+        <fieldset>
+            <legend>Generate a Key</legend>
+            <input type="radio" id="keySizeSmall" name="keySize" value="AES_128_BIT">
+            <label for="keySizeSmall">128-bit</label>
+
+            <input type="radio" id="keySizeMedium" name="keySize" value="AES_192_BIT">
+            <label for="keySizeMedium">192-bit</label>
+
+            <input type="radio" id="keySizeLarge" name="keySize" value="AES_256_BIT" checked="checked">
+            <label for="keySizeLarge">256-bit</label>
+
+            <input type="submit" value="Submit" class="btn btn-default" id="keySizeSubmit">
             <button class="copy btn btn-default">Copy</button>
         </fieldset>
     </form>
