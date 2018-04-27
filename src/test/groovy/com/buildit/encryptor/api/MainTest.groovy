@@ -60,7 +60,6 @@ class MainTest {
                 post(ENCRYPTOR_URL)
 
         assertThat(response.getStatusCode(), equalTo(400))
-        assertThat(response.asString(), equalTo("Valid key sizes are: 16 bytes. You must have the JCE installed for stronger encryption."))
     }
 
     @Test
