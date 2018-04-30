@@ -8,10 +8,18 @@ Simple ui and rest api for the Buildit [Encrytor](https://github.com/buildit/enc
 
 ## Running it
 
+### Docker
 To use the image run
 
 ```
-docker run -it -p 4567:4567 builditdigital/encryptor-api:1.0.1
+docker run -it -p 4567:4567 builditdigital/encryptor-api:2.1.0
+```
+and navigate to [http://localhost:4567/](http://localhost:4567/)
+
+### Kubernetes
+```
+kubectl run encryptor --image builditdigital/encryptor-api:2.1.0 --port 4567
+kubectl expose deployment encryptor --type "LoadBalancer"
 ```
 
-and navigate to [http://localhost:4567/](http://localhost:4567/)
+
