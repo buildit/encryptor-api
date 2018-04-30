@@ -78,7 +78,7 @@ dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.3.11'
     compile "com.sparkjava:spark-core:2.6.0"
     compile "org.apache.commons:commons-lang3:3.5"
-    compile "com.buildit:encryptor:2.0.0"
+    compile "com.buildit:encryptor:2.1.0"
     testCompile 'com.jayway.restassured:rest-assured:2.9.0'
     testCompile "junit:junit:4.11"
 }
